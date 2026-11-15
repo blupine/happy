@@ -91,4 +91,3 @@ export function getResumeAvailability(session: Session, machine: Machine | null 
         message: t('sessionInfo.resumeSessionSubtitle'),
     };
 }
-
