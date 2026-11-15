@@ -117,6 +117,7 @@ stack if individual reverts are desired.
 | `23bac14` | Happy title MCP, first-turn instructions, reconnect-safe session forwarding, exact title approvals and lifecycle tests/live probe | ACP engine and runtime integration |
 | `309b295` | Resume the same Happy session through daemon/CLI, metadata preservation, native ID recovery, capability publication, argument/settings parsing | ACP runtime; touches the title-enabled runner |
 | `d3951e3` | Shared app/web resume eligibility, metadata schemas, native fallback command and RPC tests | New daemon capability and AGY resume path |
+| `70012c1` | Whitespace-only cleanup in the new app resume helper | App resume; revert before removing that helper |
 
 After removing the resume patches that touch the runner, title integration can
 be removed with `git revert 23bac14`.
@@ -131,18 +132,19 @@ To return to improved print mode in code while waiting for an upstream ACP
 replacement, revert the runtime integration first, then the unused engine:
 
 ```sh
-git revert d3951e3 309b295 23bac14 8cf5843 5533224
+git revert 70012c1 d3951e3 309b295 23bac14 8cf5843 5533224
 ```
 
 To remove the entire code stack before adopting the upstream implementation,
 revert dependents before their foundations:
 
 ```sh
-git revert d3951e3 309b295 23bac14 8cf5843 5533224 0f435d6 6aca0d1 e91413a
+git revert 70012c1 d3951e3 309b295 23bac14 8cf5843 5533224 0f435d6 6aca0d1 e91413a
 ```
 
-App/web resume alone can be removed with `git revert d3951e3`; removing both
-resume patches with `git revert d3951e3 309b295` restores the pre-resume tree.
+App/web resume (including the whitespace follow-up) can be removed with
+`git revert 70012c1 d3951e3`; removing both
+resume patches with `git revert 70012c1 d3951e3 309b295` restores the pre-resume tree.
 
 The full sequence was checked in a disposable worktree and restores the exact
 pre-stack tracked tree (`f937489`). These commands apply to this PR's tree;
